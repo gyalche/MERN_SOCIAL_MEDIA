@@ -1,6 +1,7 @@
 import PostModel from "../Models/postModel.js";
 import mongoose from "mongoose";
 import postModel from "../Models/postModel.js";
+import UserModel from "../Models/userModel.js";
 
 //create new post;
 export const createPost=async(req, res) => {
@@ -88,4 +89,34 @@ export const likePost=async(req, res)=>{
         
 
     }
+}
+
+//get Timeline post;
+export const getTimelinePosts=async(req, res) =>{
+    const userId=req.params.id;
+
+    try {
+        const currentUserPost= await PostModel.find({userId:userId});
+        const follwingPost=await UserModel.aggregate([
+            {
+                $match:{
+                    _id:new mongoose.Types.ObjectId(userId)
+                },
+                $lookup:{
+                    from:'posts',
+                    localField:"following",
+                    "foreignField":"userId",
+                    as:"followingPost"
+                },
+                $project:{
+                    follwingPost:1,
+                    _id:0
+                }
+            }
+        ])
+        res.status(200).json(currentUserPost.concat(follwingPost))
+    } catch (error) {
+        res.status(500).json("error")
+    }
+
 }
