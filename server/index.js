@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import AuthRoute from './Routes/AuthRoute.js';
 import UserRoute from './Routes/UserRoute.js';
+import PostRoute from './Routes/PostRoute.js';
 
 //dotevn configuration;
 dotenv.config();
@@ -31,6 +32,7 @@ const PORT=process.env.PORT || 9000;
 //usage fo routes;
 app.use('/auth', AuthRoute)
 app.use('/user', UserRoute)
+app.use('/post', PostRoute)
 
 
 app.listen(PORT, ()=>{

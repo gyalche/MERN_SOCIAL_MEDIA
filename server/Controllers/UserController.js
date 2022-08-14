@@ -87,7 +87,6 @@ export const followUser=async(req, res) => {
 }
 
 //unfollow a user;
-
 export const unfollowUser = async(req, res) => {
     const id=req.params.id;
     const {currentUserId}=req.body;
