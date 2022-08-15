@@ -97,24 +97,33 @@ export const getTimelinePosts=async(req, res) =>{
 
     try {
         const currentUserPost= await PostModel.find({userId:userId});
+        //aggregate is used to interact with the mongodb database;
         const follwingPost=await UserModel.aggregate([
             {
                 $match:{
                     _id:new mongoose.Types.ObjectId(userId)
                 },
+                //we use lookup when we have to match the document in an other model by
+                //placing the query in an other model;
                 $lookup:{
                     from:'posts',
                     localField:"following",
                     "foreignField":"userId",
                     as:"followingPost"
                 },
+                //project is a return type of our aggregation;
                 $project:{
                     follwingPost:1,
                     _id:0
                 }
             }
         ])
-        res.status(200).json(currentUserPost.concat(follwingPost))
+        res.status(200)
+            .json(currentUserPost.concat(...follwingPost[0].follwingPost)
+            .sort((a, b)=>{
+                return b.createdAt-a.createdAt;
+            })
+            );
     } catch (error) {
         res.status(500).json("error")
     }
