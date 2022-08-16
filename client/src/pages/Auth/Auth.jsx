@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './Auth.css';
 import Logo from '../../img/logo.png';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logIn, signUp } from '../../actions/AuthAction';
 
 const Auth = () => {
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.authReducer.loading);
+  // console.log(loading);
   const [isSignup, setIsSignup] = useState(false);
   const [data, setData] = useState({
     firstname: '',
@@ -24,10 +26,14 @@ const Auth = () => {
   const handleSubmit = (e) => {
     setConfirmPass(true);
     e.preventDefault();
-    if (isSignup)
+    if (isSignup) {
       data.password === data.conformpassword
         ? dispatch(signUp(data))
         : setConfirmPass(false);
+      // loading(false);
+    } else {
+      dispatch(logIn(data));
+    }
   };
 
   const resetForm = () => {
@@ -52,7 +58,10 @@ const Auth = () => {
 
       {/*SignUp /> */}
       <div className='a-right'>
-        <form className='infoForm authForm' onSubmit={handleSubmit}>
+        <form
+          className='infoForm authForm'
+          onSubmit={handleSubmit}
+          method='POST'>
           <h3>{isSignup ? 'Sign up' : 'Login'}</h3>
           {isSignup && (
             <div>
@@ -129,8 +138,11 @@ const Auth = () => {
             </span>
           </div>
 
-          <button className='button infoButton' type='submit'>
-            {isSignup ? 'signup' : 'login'}
+          <button
+            className='button infoButton'
+            type='Submit'
+            disabled={loading}>
+            {loading ? 'loading...' : isSignup ? 'signup' : 'login'}
           </button>
         </form>
       </div>

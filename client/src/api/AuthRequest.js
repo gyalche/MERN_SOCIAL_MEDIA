@@ -4,9 +4,6 @@ import axios from '../axios';
 //   baseURL: 'http://localhost:5000',
 // });
 
-export const logIn = (formData) => {
-  axios.post('/auth/login', formData);
-};
-export const signUp = async (formData) => {
-  await axios.post('/auth/register', formData);
-};
+export const logIn = (formData) => axios.post('/auth/login', formData);
+
+export const signUp = (formData) => axios.post('/auth/register', formData);
