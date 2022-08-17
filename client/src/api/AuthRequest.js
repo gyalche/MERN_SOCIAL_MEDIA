@@ -7,4 +7,3 @@ import axios from '../axios';
 export const logIn = (formData) => axios.post('/auth/login', formData);
 
 export const signUp = (formData) => axios.post('/auth/register', formData);
-

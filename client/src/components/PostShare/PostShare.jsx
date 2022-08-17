@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 const PostShare = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.authReducer.authData);
+  const loading = useSelector((state) => state.postReducer.uploading);
   const [image, setImage] = useState(null);
   const ref = useRef();
   const desc = useRef();
@@ -23,6 +24,10 @@ const PostShare = () => {
     }
   };
 
+  const reset = () => {
+    setImage(null);
+    desc.current.value = null;
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     const newPost = {
@@ -31,7 +36,7 @@ const PostShare = () => {
     };
     if (image) {
       const data = new FormData();
-      const filename = Date.now() + image.name;
+      const filename = image.name;
       data.append('name', filename);
       data.append('file', image);
       newPost.image = filename;
@@ -39,11 +44,13 @@ const PostShare = () => {
 
       try {
         dispatch(uploadImage(data));
+        // console.log(data);
       } catch (error) {
         console.log(error);
       }
     }
     dispatch(uploadPost(newPost));
+    reset();
   };
   return (
     <div className='PostShare'>
@@ -78,8 +85,11 @@ const PostShare = () => {
             Schedule
           </div>
 
-          <button className='button ps-button' onClick={handleSubmit}>
-            Share
+          <button
+            className='button ps-button'
+            onClick={handleSubmit}
+            disabled={loading}>
+            {loading ? 'uploading' : 'Share'}
           </button>
           <div style={{ display: 'none' }}>
             <input
