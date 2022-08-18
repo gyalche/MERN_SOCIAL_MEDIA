@@ -10,6 +10,12 @@ import PostRoute from './Routes/PostRoute.js';
 import uploadRoute from './Routes/uploadRoute.js';
 
 const app = express();
+app.use(cors({ origin: true, credentials: true }));
+
+//to serve images for public;
+app.use(express.static('public'));
+app.use('/images', express.static('images'));
+
 dotenv.config();
 app.use(morgan('dev'));
 
@@ -20,7 +26,7 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 // var corsOptions = {
 //   origin: 'http://localhost:5000',
 // };
-app.use(cors());
+
 mongoose
   .connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,

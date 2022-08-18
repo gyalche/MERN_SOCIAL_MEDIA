@@ -89,43 +89,15 @@ export const likePost = async (req, res) => {
 
 //get Timeline post;
 export const getTimelinePosts = async (req, res) => {
-  const userId = req.params.id;
+  const id = req.params.id;
 
   try {
-    // const currentUserPost = await PostModel.find({ userId: userId });
-    // //aggregate is used to interact with the mongodb database;
-    // const follwingPost = await UserModel.aggregate([
-    //   {
-    //     $match: {
-    //       _id: new mongoose.Types.ObjectId(userId),
-    //     },
-    //     //we use lookup when we have to match the document in an other model by
-    //     //placing the query in an other model;
-    //     $lookup: {
-    //       from: 'posts',
-    //       localField: 'following',
-    //       foreignField: 'userId',
-    //       as: 'followingPost',
-    //     },
-    //     //project is a return type of our aggregation;
-    //     $project: {
-    //       follwingPost: 1,
-    //       _id: 0,
-    //     },
-    //   },
-    // ]);
-    // res.status(200).json(
-    //   currentUserPost.concat(...follwingPost[0].follwingPost).sort((a, b) => {
-    //     return b.createdAt - a.createdAt;
-    //   })
-    // );
-
-    const currentUserPost = await postModel.find({ userId: userId });
+    const currentUserPost = await postModel.find({ userId: id });
     //aggregate is used to interact with the mongodb database;
     const follwingPost = await UserModel.aggregate([
       {
         $match: {
-          _id: new mongoose.Types.ObjectId(userId),
+          _id: new mongoose.Types.ObjectId(id),
         },
         //we use lookup when we have to match the document in an other model by
         //placing the query in an other model;
@@ -148,6 +120,6 @@ export const getTimelinePosts = async (req, res) => {
       })
     );
   } catch (error) {
-    res.status(500).json(error.response);
+    res.status(500).json(error.message);
   }
 };

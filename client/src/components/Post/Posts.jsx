@@ -14,15 +14,17 @@ const Posts = () => {
 
   useEffect(() => {
     dispatch(getTimelinePosts(user._id));
-  }, [user._id]);
+  }, [dispatch]);
 
-  if (!posts) return 'No posts';
-  if (params.id) posts = posts.filter((post) => post.userId === params.id);
+  // if (!posts) return 'No posts';
+  // if (params.id) posts = posts.filter((post) => post.userId === params.id);
   return (
     <div className='Posts'>
-      {posts.map((post, id) => {
-        return <Post data={post} id={id} />;
-      })}
+      {loading
+        ? 'Loading posts...'
+        : posts.map((post, id) => {
+            return <Post data={post} key={id} />;
+          })}
     </div>
   );
 };

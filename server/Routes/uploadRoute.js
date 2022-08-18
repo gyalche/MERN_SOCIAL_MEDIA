@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
     cb(null, 'public/images');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + req.body.name);
+    cb(null, req.body.name);
   },
 });
 
@@ -23,15 +23,12 @@ const upload = multer({
   //   fileFilter: filter,
 });
 
-router.post(
-  '/',
-  upload.single('file', (req, res) => {
-    try {
-      return res.status(200).json('file uploaded sucessfully');
-    } catch (error) {
-      res.status(400).json({ message: error });
-    }
-  })
-);
+router.post('/', upload.single('file'), (req, res) => {
+  try {
+    return res.status(200).json('file uploaded sucessfully');
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
 
 export default router;

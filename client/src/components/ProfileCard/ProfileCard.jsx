@@ -1,59 +1,79 @@
-import React from 'react'
-import "./ProfileCard.css"
+import React from 'react';
+import './ProfileCard.css';
 import Cover from '../../img/cover.jpg';
-import Profile from "../../img/profileImg.jpg"
-const ProfileCard = () => {
+import Profile from '../../img/profileImg.jpg';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+const ProfileCard = ({ location }) => {
+  const { user } = useSelector((state) => state.authReducer.authData);
+  const { posts } = useSelector((state) => state.postReducer);
+  const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
 
-    const ProfilePage=true;
   return (
-    <div className="ProfileCard">
-        <div className="ProfileImages">
-            <img src={Cover} alt="" />
-            <img src={Profile} alt="" />
+    <div className='ProfileCard'>
+      <div className='ProfileImages'>
+        <img
+          src={user.coverPicture ? serverPublic + user.coverPicture : Cover}
+          alt=''
+        />
+        <img
+          src={
+            user.profilePicture ? serverPublic + user.profilePicture : Profile
+          }
+          alt=''
+        />
+      </div>
+      <div className='ProfileName'>
+        <span>
+          {user.firstname} {user.lastname}
+        </span>
+        <span>{user.worksAt ? user.worksAt : 'Write about yourself'}</span>
+      </div>
 
+      <div className='followStatus'>
+        <hr />
+        <div>
+          <div className='follow'>
+            <span>{user.following.length}</span>
+          </div>
+          <div className='vl'></div>
+
+          <div className='follow'>
+            <span>{user.followers.length}</span>
+            <span>Followers</span>
+          </div>
+
+          {location === 'profilePage' && (
+            <>
+              <div className='vl'></div>
+
+              <div className='follow'>
+                <span>
+                  {posts.filter((post) => post.userId === user._id).length}
+                </span>
+                <span>Posts</span>
+              </div>
+            </>
+          )}
         </div>
-        <div className="ProfileName">
-            <span>Dawa Sherpa</span>
-            <span>Senior software Engineer</span>
-        </div>
+        <hr />
+      </div>
 
-        <div className="followStatus">
-            <hr />
-            <div>
-                <div className="follow">
-                    <span>23,234</span>
-                    <span>Followings</span>
-                </div>
-                <div className="vl">
-
-                </div>
-
-                <div className="follow">
-                    <span>2</span>
-                    <span>Followers</span>
-                </div>
-
-                {ProfilePage && (
-                    <>
-                        <div className="vl">
-                        
-                        </div>
-
-                        <div className="follow">
-                            <span>3</span>
-                            <span>Posts</span>
-                        </div>
-                    </>
-                )}
-            </div>
-            <hr />
-        </div>
-
-        {ProfilePage? '':(
-            <span>My Profile</span>
-        )}
+      {location === 'profilePage' ? (
+        ''
+      ) : (
+        <span>
+          <Link
+            style={{
+              textDecoration: 'none',
+            }}
+            to={`/profile/${user._id}`}>
+            My Profile
+          </Link>
+        </span>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default ProfileCard
+export default ProfileCard;

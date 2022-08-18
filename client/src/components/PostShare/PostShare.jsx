@@ -17,6 +17,7 @@ const PostShare = () => {
   const ref = useRef();
   const desc = useRef();
 
+  const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
   const onImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       let img = e.target.files[0];
@@ -54,7 +55,14 @@ const PostShare = () => {
   };
   return (
     <div className='PostShare'>
-      <img src={ProfileImage} alt='profile' />
+      <img
+        src={
+          user.profilePicture
+            ? serverPublic + user.profilePicture
+            : ProfileImage
+        }
+        alt='profile'
+      />
       <div>
         <input
           ref={desc}
