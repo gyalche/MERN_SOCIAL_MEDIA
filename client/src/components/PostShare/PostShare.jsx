@@ -37,7 +37,7 @@ const PostShare = () => {
     };
     if (image) {
       const data = new FormData();
-      const filename = image.name;
+      const filename = Date.now() + image.name;
       data.append('name', filename);
       data.append('file', image);
       newPost.image = filename;
@@ -57,9 +57,7 @@ const PostShare = () => {
     <div className='PostShare'>
       <img
         src={
-          user.profilePicture
-            ? serverPublic + user.profilePicture
-            : ProfileImage
+          user?.profilePicture ? serverPublic + user.profilePicture : ProfileImage
         }
         alt='profile'
       />

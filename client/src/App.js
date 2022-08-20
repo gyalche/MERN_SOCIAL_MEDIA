@@ -27,6 +27,7 @@ function App() {
           element={user ? <Navigate to='../home' /> : <Auth />}
         />
 
+        <Route path='/logout' element={<Auth />} />
         <Route
           path='/profile/:id'
           element={user ? <Profile /> : <Navigate to='../auth' />}
