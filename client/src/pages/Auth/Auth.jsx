@@ -3,6 +3,7 @@ import './Auth.css';
 import Logo from '../../img/logo.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { logIn, signUp } from '../../actions/AuthAction';
+import { Navigate } from 'react-router-dom';
 
 const Auth = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const Auth = () => {
       // loading(false);
     } else {
       dispatch(logIn(data));
+      Navigate('/home');
     }
   };
 
