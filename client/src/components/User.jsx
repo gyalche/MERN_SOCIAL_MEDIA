@@ -5,11 +5,11 @@ const User = ({ person, id }) => {
   const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
   const { user } = useSelector((state) => state.authReducer.authData);
   const [following, setFollowing] = useState(
-    person.following.includes(user._id)
+    person.followers.includes(user._id)
   );
   const dispatch = useDispatch();
   const handleFollow = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     following
       ? dispatch(unfollowUser(person._id, user))
       : dispatch(followUser(person._id, user));

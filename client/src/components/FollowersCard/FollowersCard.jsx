@@ -17,7 +17,7 @@ const FollowersCard = () => {
   return (
     <div className='FollowersCard'>
       <h3>People you may know</h3>
-        
+
       {persons.map((person, id) => {
         if (person._id !== user._id) return <User person={person} key={id} />;
       })}
