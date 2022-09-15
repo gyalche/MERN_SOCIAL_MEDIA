@@ -1,5 +1,5 @@
 import express from 'express';
-import authMiddleWare from '../authMiddleware/authMiddleWare.js';
+import authMiddleWare from '../authMiddleware.js/authMiddleware.js';
 import {
   deleteUser,
   followUser,
@@ -17,5 +17,6 @@ router.delete('/:id', authMiddleWare, deleteUser);
 router.put('/:id/follow', authMiddleWare, followUser);
 router.put('/:id/unfollow', authMiddleWare, unfollowUser);
 router.get('/', getAllUsers);
+
 
 export default router;

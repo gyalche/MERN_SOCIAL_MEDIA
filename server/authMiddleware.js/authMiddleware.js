@@ -8,7 +8,7 @@ const authMiddleWare = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
     if (token) {
-      const decode = await jwt.verify(token, secret);
+      const decode = await jwt.sign(token, secret);
       req.body._id = decode?.id;
     }
     next();
