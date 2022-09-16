@@ -9,6 +9,7 @@ import UserRoute from './Routes/UserRoute.js';
 import PostRoute from './Routes/PostRoute.js';
 import uploadRoute from './Routes/uploadRoute.js';
 import chatRoute from './Routes/ChatRoute.js';
+import messageRoute from './Routes/MessageRoute.js';
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
 
@@ -53,6 +54,7 @@ app.use('/user', UserRoute);
 app.use('/post', PostRoute);
 app.use('/upload', uploadRoute);
 app.use('/chat', chatRoute);
+app.use('/message', messageRoute);
 app.listen(PORT, () => {
   console.log(`server is listening to http://localhost:${PORT}`);
 });
