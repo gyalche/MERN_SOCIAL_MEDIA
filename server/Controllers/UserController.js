@@ -89,7 +89,7 @@ export const followUser = async (req, res) => {
 
       if (!followUser.followers.includes(_id)) {
         await followUser.updateOne({ $push: { followers: _id } });
-        await followingUser.updateOne({ $push: { following: id } });
+        await followingUser.updateOne({ $pull: { following: id } });
         res.status(200).json('user followed');
       } else {
         res.status(403).json('user is already followed by you');
